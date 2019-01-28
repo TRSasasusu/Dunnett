@@ -103,5 +103,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# Mac
+.DS_Store
 
 *-result.txt
+*.xlsx
