@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 import pyper
 
+FLUSH_BUFFERS_RANGE = 10 # In Windows, library() makes some buffers which should be flushed to display your results.
 
 def main():
     df = pd.read_excel(sys.argv[1], header=None)
@@ -13,6 +14,9 @@ def main():
     r = pyper.R(use_pandas='True')
     r('install.packages("multcomp", repos="http://cran.ism.ac.jp/")')
     r('library(multcomp)')
+
+    for i in range(FLUSH_BUFFERS_RANGE):
+        r('1')
 
     fx = []
     vx = []
