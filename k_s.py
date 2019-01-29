@@ -13,9 +13,9 @@ def main():
     ps = []
     text = ''
     for column in df.columns[1:]:
-        result = r('ks.test(x=df$A,y=df${})'.format(column))
-        text += result + '\n'
-        p = float(re.search(r'p-value = .+', result).group(0).split(' = ')[1])
+        text += r('ks.test(x=df$A,y=df${})'.format(column)) + '\n'
+        result = r('ks.test(x=df$A,y=df${})$p.value'.format(column))
+        p = float(re.search(r'\[1\] .+', result).group(0).split(' ')[1])
         text += str(p) + '\n'
         ps.append(p)
 
