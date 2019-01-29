@@ -4,19 +4,16 @@ import sys
 import os
 import numpy as np
 import pandas as pd
-import pyper
-
-FLUSH_BUFFERS_RANGE = 10 # In Windows, library() makes some buffers which should be flushed to display your results.
+import helper
 
 def main():
-    df = pd.read_excel(sys.argv[1], header=None)
+    df = helper.get_df()
 
-    r = pyper.R(use_pandas='True')
+    r = helper.get_r()
     r('install.packages("multcomp", repos="http://cran.ism.ac.jp/")')
     r('library(multcomp)')
 
-    for i in range(FLUSH_BUFFERS_RANGE):
-        r('1')
+    helper.flush_buffer()
 
     fx = []
     vx = []
@@ -30,7 +27,7 @@ def main():
     r('fx=factor(dx$fx)')
     r('vx=dx$vx')
 
-    with open('{}-result.txt'.format(os.path.splitext(sys.argv[1])[0]), 'w') as f:
+    with open('{}-dunnett.txt'.format(helper.get_split_filename[0]), 'w') as f:
         f.write('{}\n\n{}\n'.format(
             r('summary(glht(aov(vx~fx),linfct=mcp(fx="Dunnett")))'),
             r('summary(glht(aov(vx~fx),linfct=mcp(fx="Dunnett")))$test$pvalues')
