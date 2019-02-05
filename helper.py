@@ -10,6 +10,8 @@ import pyper
 FLUSH_BUFFERS_RANGE = 10 
 
 def get_df() -> pd.DataFrame:
+    if get_split_filename()[1] == '.csv':
+        return pd.read_csv(sys.argv[1], header=None)
     return pd.read_excel(sys.argv[1], header=None)
 
 def get_r() -> pyper.R:
